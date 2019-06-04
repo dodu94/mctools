@@ -2,10 +2,12 @@ MANIFEST.in
 README.md
 setup.py
 mctools/CheckFill.py
+mctools/Corr_density.py
 mctools/LPdebugger.py
 mctools/LPdebugger_arbitrarySource.py
 mctools/LPdebugger_normalRun.py
 mctools/LPspaceClaim.py
+mctools/Red_density.py
 mctools/TADcheck.py
 mctools/WW_operator.py
 mctools/__init__.py
@@ -14,6 +16,7 @@ mctools/eeoutTOvtk.py
 mctools/fendl31_to21.py
 mctools/fendlConfront.xlsx
 mctools/main.py
+mctools/wrap.py
 mctools.egg-info/PKG-INFO
 mctools.egg-info/SOURCES.txt
 mctools.egg-info/dependency_links.txt

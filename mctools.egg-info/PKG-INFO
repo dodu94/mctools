@@ -1,12 +1,11 @@
-Metadata-Version: 1.1
+Metadata-Version: 2.1
 Name: mctools
-Version: 1.2.0
+Version: 1.2.5
 Summary: A box of tools to make your life with MCNP easier
 Home-page: UNKNOWN
 Author: Davide Laghi
 Author-email: davide.laghi01@gmail.com
 License: UNKNOWN
-Description-Content-Type: text/markdown
 Description: # mctools package
         
         This is a package grouping a set of useful tools to edit/extract informations from MCNP input and output files.
@@ -103,8 +102,66 @@ Description: # mctools package
         	RESTRICTIONS:
         		The majority of the comments contained in the material section will be eliminated
         		Often in the c-model there are two 'END OF MATERIAL SECTION' comment lines. The one in middle MUST be canceled for the script to work.
-        			
+        
+        4) 'rd':  it is to reduce the density of the MCNP cell by a factor given by the user. Modified filed written in a file named as "InputFile + '[Reduced_Density]'".
+        
+        	ADDITIONAL OPTIONS:
+        		' -i <inputfile> '
+        			insert the MCNP input file to employ
+        		' -factor <reduction factor> '
+        			insert the density reduction factor
+        	
+        	UNIQUE IDENTIFIERS:
+        		Not used. MCNP native sections are used.
+        		
+        	RESTRICTIONS:
+        		Only "int" density reduction factor is accepted.
+        		
+        4) 'cd':  To multiply the MCNP cell density by a factor given in an external file. 
+                  Only the cells listed in the external file are modified. 
+        		  Modified file written in a file named as "InputFile + '[Corrected_Density]'".
+        		  Log file written in a file named as "InputFile + '[LogFile]'".
+        
+        	ADDITIONAL OPTIONS:
+        		' -i <inputfile> '
+        			insert the MCNP input file to employ
+        		' -cf <correction factor> '
+        			File containing the MCNP cells to be modified (first column) and the correspondent correction factor (second column)
+        	
+        	UNIQUE IDENTIFIERS:
+        		Not used. MCNP native sections are used.
+        		
+        	RESTRICTIONS:
+        		No one.
+        
+        5) 'wrap':  Standard organization of the cell description which spans within the 80 characters. 
+                    Surface and card sections are not modified. 
+        			The cell description is followed by a line containing all the cell cards, 
+        			hence by the fill card with the rotation (if present) than the in-line comments in the subsequent line (if present).  
+        			Comments are maintained. All the comments present are collected. The organized file is coded as filename + [WRAP]. 
+        	        The cellsâ€™ information collected are properly reported and resumed in file as filename + [RESUME].
+                    The information of each cell is also written in a table format in a log file which can be easily imported in Excel for further analysis.
+        			The organized file is coded as filename + [LOG]. 
+         
+        	ADDITIONAL OPTIONS:
+        		' -i <inputfile> '
+        			insert the MCNP input file to employ
+        		' -mod tmp '
+        			To modify the TMP card of cells according to the information provided in InputTMP.
+        			Suffix MOD added in output file.
+        		' -mod dens '
+        			To modify the cells' density according to the information provided in InputDENS.
+        			Suffix MOD added in output file.
+        		' -mod tmp_dens '
+        			tmp and dens mode together.
+        	
+        	UNIQUE IDENTIFIERS:
+        		Not used. MCNP native sections are used.
+        		
+        	RESTRICTIONS:
+        		No one.		
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: Windows
+Description-Content-Type: text/markdown

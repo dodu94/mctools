@@ -47,13 +47,20 @@ def lpdebug_normalRun(olist,input_model):
     print('Assigning surfaces and cells to their filler universe...'+'\n')
     #-- Assign surfaces and cells to their filler universe --
     for cell in cellListReduced:
+        u = None
         with open(input_model,'r', errors='ignore') as infile: # errors='ignore' is due top the fact that in some cases
             for line in infile:                                # there are char in comments that cannot be read
+                
+                # To exit the loop if you pass to the next cell description
+                if Trigger:
+                    if Number.match(line, 0)!= None:
+                        Trigger = False
+                        break
                 
                 #if the cell is found, the universe search is triggered
                 if re.compile(cell).match(line) != None:
                         Trigger = True  
-                
+                        
                 if patComments.match(line) == None: # if the line is a comment is ignored
                     #The universe is registered and the search is stop                
                     if Trigger:
@@ -63,6 +70,9 @@ def lpdebug_normalRun(olist,input_model):
                             Trigger = False
                             universeList.append(uNum.group())
                             break
+        if u == None:
+            u = '-'
+            universeList.append(u)
     
     print('Creating output...'+'\n')
     #-- OUTPUT RESULTS --
