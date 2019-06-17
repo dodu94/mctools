@@ -19,16 +19,22 @@ def lpdebug_arbitrary(olist,input_model):
 
     #-- Identifiers --
     surfaceIdentifier = 'currently being tracked has reached surface'
-    cellIdentifier = 'other side of the surface from cell'
+    cellIdentifier    = 'other side of the surface from cell'
+    pointIdentifier   = 'x,y,z coordinates:'
     #-- Patterns --
     Number = re.compile('\d+')
     patComments = re.compile('(?i)C\s+')
     patUniverse = re.compile('(?i)u=\d+')
     patNPS=re.compile('(?i)nps')
     patNPS_value=re.compile('\s+[eE.0-9]+\s*')
+    patXYZ=re.compile('\s+[eE.0-9]+\s[eE.0-9]+\s[eE.0-9]+\s*')
+    patSDEF = re.compile('(?i)sdef')
+    patSDEFsur = re.compile('(?i)sur=\d+')
+    
     #-- Variables --
     surfList=[]
     cellList=[]
+    pointList=[]
     universeList=[]
     Trigger=False
     
@@ -36,17 +42,24 @@ def lpdebug_arbitrary(olist,input_model):
     surfaceSource = float(input('Insert the area of the source surface [cm]: '))
     
     
-    for outp in olist:
-        print('\n'+'Recovering lost particles surfaces and cells in '+outp+' ...'+'\n')
-        #-- Getting the surfaces and cells with LP --
-        with open(outp,'r') as infile:
-            for line in infile:
-                if line.find(surfaceIdentifier) != -1: #LP in surface
-                    surfList.append(Number.search(line).group())
-                if line.find(cellIdentifier) != -1: #LP in cell
-                    cellList.append(Number.search(line).group())
-                
-    
+    #-- Identifiers --
+    surfaceIdentifier = 'currently being tracked has reached surface'
+    cellIdentifier    = 'other side of the surface from cell'
+    pointIdentifier   = 'x,y,z coordinates:'
+    #-- Patterns --
+    Number = re.compile('\d+')
+    patComments = re.compile('(?i)C\s+')
+    patUniverse = re.compile('(?i)u=\d+')
+    patNPS=re.compile('(?i)nps')
+    patNPS_value=re.compile('\s+[eE.0-9]+\s*')
+    patXYZ=re.compile('\s+[eE.0-9]+\s[eE.0-9]+\s[eE.0-9]+\s*')
+    #-- Variables --
+    surfList=[]
+    cellList=[]
+    pointList=[]
+    universeList=[]
+    Trigger=False
+
     #Recover NPS value and radius of the sphere
     with open(input_model,'r', errors='ignore') as infile: # errors='ignore' is due top the fact that in some cases
         for line in infile:
@@ -58,6 +71,7 @@ def lpdebug_arbitrary(olist,input_model):
     #-- Counting multiple occurrencies --
     organizer=pd.DataFrame(surfList,cellList).reset_index()
     organizer.rename(columns={'index':'Cell',0:'Surface'},inplace=True)
+    organizer = organizer.assign(Position=pointList)
     organized = organizer.groupby(organizer.columns.tolist()).size().reset_index().rename(columns={0:'Count'})
     cellListReduced=organized['Cell'].tolist()
     
@@ -99,42 +113,43 @@ def lpdebug_arbitrary(olist,input_model):
     # Cleaning and operating on raw data 
     organized['Filler Universe']=universeList
     df_sorted=organized.sort_values(by=['Filler Universe','Count'])
-    df_sorted.set_index(["Filler Universe",'Cell','Surface'],inplace=True)
+    df_sorted.set_index(["Filler Universe",'Cell','Surface','Position'],inplace=True)
     df_max=df_sorted.groupby('Filler Universe').tail(1)
-    df_max.reset_index(level=['Cell','Surface'],inplace=True)
+    df_max.reset_index(level=['Cell','Surface','Position'],inplace=True)
     df_sum=df_sorted.groupby('Filler Universe').sum()
     df_max['Total LP in universe']=df_sum['Count']
-    
+    df_max=df_max.drop(columns='Position')  # Deleting the column Position
+	
     #-- Creating Excel Writer Object from Pandas -- 
     writer = pd.ExcelWriter('LPdebug.xlsx',engine='xlsxwriter')   
     workbook=writer.book
     worksheet=workbook.add_worksheet('LP Debugging')
     writer.sheets['LP Debugging'] = worksheet
-    worksheet.set_column('A:D',15)
-    worksheet.set_column('K:N',15)
-    worksheet.set_column('O:O',18)
+    worksheet.set_column('A:E',20)
+    worksheet.set_column('L:Q',20)
+    worksheet.set_column('Q:Q',20)
     worksheet.write('A1', 'LOST PARTICLE LOCATIONS')
-    worksheet.write('K1','SUMMARY FOR MOST PROBLEMATIC CELL IN EACH UNIVERSE')
+    worksheet.write('L1','SUMMARY FOR MOST PROBLEMATIC CELL IN EACH UNIVERSE')
     #IA estimation
     LP=df_sorted['Count'].sum()
     IA=1/2*surfaceSource*LP/NPS
     tolerance=1/(math.sqrt(LP))
     
     format_percentage = workbook.add_format({'num_format': '0.00%'})
-    worksheet.write('F1', 'INTERSECTION AREA ESTIMATION')
-    worksheet.write('F2','LP')
-    worksheet.write('G2',LP)
-    worksheet.write('F3','NPS')
-    worksheet.write('G3',NPS)
-    worksheet.write('F4','Source Area [cm]')
-    worksheet.write('G4',surfaceSource)
-    worksheet.write('F6', 'Estimated IA [cm^2]:')
-    worksheet.write('F7',IA)
-    worksheet.write('G7','+/-')
-    worksheet.write('H7',tolerance,format_percentage)
+    worksheet.write('G1', 'INTERSECTION AREA ESTIMATION')
+    worksheet.write('G2','LP')
+    worksheet.write('H2',LP)
+    worksheet.write('G3','NPS')
+    worksheet.write('H3',NPS)
+    worksheet.write('G4','Source Area [cm]')
+    worksheet.write('H4',surfaceSource)
+    worksheet.write('G6', 'Estimated IA [cm^2]:')
+    worksheet.write('G7',IA)
+    worksheet.write('H7','+/-')
+    worksheet.write('I7',tolerance,format_percentage)
     
     df_sorted.to_excel(writer,sheet_name='LP Debugging',startrow=1 , startcol=0)   
-    df_max.to_excel(writer,sheet_name='LP Debugging',startrow=1, startcol=10)
+    df_max.to_excel(writer,sheet_name='LP Debugging',startrow=1, startcol=11)
     
     writer.save()
     print ('\n The warning is normal, the output was created correctly')

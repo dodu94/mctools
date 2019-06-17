@@ -18,18 +18,22 @@ def lpdebug(olist,input_model):
 
     #-- Identifiers --
     surfaceIdentifier = 'currently being tracked has reached surface'
-    cellIdentifier = 'other side of the surface from cell'
+    cellIdentifier    = 'other side of the surface from cell'
+    pointIdentifier   = 'x,y,z coordinates:'
     #-- Patterns --
     Number = re.compile('\d+')
     patComments = re.compile('(?i)C\s+')
     patUniverse = re.compile('(?i)u=\d+')
     patNPS=re.compile('(?i)nps')
     patNPS_value=re.compile('\s+[eE.0-9]+\s*')
+    patXYZ=re.compile('\s+[eE.0-9]+\s[eE.0-9]+\s[eE.0-9]+\s*')
     patSDEF = re.compile('(?i)sdef')
-    patSDEFsur = re.compile('(?i)sur[fF]*=\d+')
+    patSDEFsur = re.compile('(?i)sur=\d+')
+    
     #-- Variables --
     surfList=[]
     cellList=[]
+    pointList=[]
     universeList=[]
     Trigger=False
     
@@ -42,6 +46,10 @@ def lpdebug(olist,input_model):
                     surfList.append(Number.search(line).group())
                 if line.find(cellIdentifier) != -1: #LP in cell
                     cellList.append(Number.search(line).group())
+                if line.find(pointIdentifier) != -1: #LP in cell
+                    reverse = re.search('\d', line[::-1])
+                    pos = len(line[::-1]) - reverse.start(0)
+                    pointList.append(line[re.search('\d+',line).start():pos])
                 
     
     #Recover NPS value and radius of the sphere
@@ -66,26 +74,20 @@ def lpdebug(olist,input_model):
     #-- Counting multiple occurrencies --
     organizer=pd.DataFrame(surfList,cellList).reset_index()
     organizer.rename(columns={'index':'Cell',0:'Surface'},inplace=True)
+    organizer = organizer.assign(Position=pointList)
     organized = organizer.groupby(organizer.columns.tolist()).size().reset_index().rename(columns={0:'Count'})
     cellListReduced=organized['Cell'].tolist()
     
     print('Assigning surfaces and cells to their filler universe...'+'\n')
     #-- Assign surfaces and cells to their filler universe --
     for cell in cellListReduced:
-        u = None
         with open(input_model,'r', errors='ignore') as infile: # errors='ignore' is due top the fact that in some cases
             for line in infile:                                # there are char in comments that cannot be read
-                
-                # To exit the loop if you pass to the next cell description
-                if Trigger:
-                    if Number.match(line, 0)!= None:
-                        Trigger = False
-                        break
                 
                 #if the cell is found, the universe search is triggered
                 if re.compile(cell).match(line) != None:
                         Trigger = True  
-                        
+                
                 if patComments.match(line) == None: # if the line is a comment is ignored
                     #The universe is registered and the search is stop                
                     if Trigger:
@@ -95,51 +97,49 @@ def lpdebug(olist,input_model):
                             Trigger = False
                             universeList.append(uNum.group())
                             break
-        if u == None:
-            u = '-'
-            universeList.append(u)
     
     print('Creating output...'+'\n')
     #-- OUTPUT RESULTS --
     # Cleaning and operating on raw data 
     organized['Filler Universe']=universeList
     df_sorted=organized.sort_values(by=['Filler Universe','Count'])
-    df_sorted.set_index(["Filler Universe",'Cell','Surface'],inplace=True)
+    df_sorted.set_index(["Filler Universe",'Cell','Surface','Position'],inplace=True)
     df_max=df_sorted.groupby('Filler Universe').tail(1)
-    df_max.reset_index(level=['Cell','Surface'],inplace=True)
+    df_max.reset_index(level=['Cell','Surface','Position'],inplace=True)
     df_sum=df_sorted.groupby('Filler Universe').sum()
     df_max['Total LP in universe']=df_sum['Count']
-    
+    df_max=df_max.drop(columns='Position')  # Deleting the column Position
+	
     #-- Creating Excel Writer Object from Pandas -- 
     writer = pd.ExcelWriter('LPdebug.xlsx',engine='xlsxwriter')   
     workbook=writer.book
     worksheet=workbook.add_worksheet('LP Debugging')
     writer.sheets['LP Debugging'] = worksheet
-    worksheet.set_column('A:D',15)
-    worksheet.set_column('K:N',15)
-    worksheet.set_column('O:O',18)
+    worksheet.set_column('A:E',20)
+    worksheet.set_column('L:Q',20)
+    worksheet.set_column('Q:Q',20)
     worksheet.write('A1', 'LOST PARTICLE LOCATIONS')
-    worksheet.write('K1','SUMMARY FOR MOST PROBLEMATIC CELL IN EACH UNIVERSE')
+    worksheet.write('L1','SUMMARY FOR MOST PROBLEMATIC CELL IN EACH UNIVERSE')
     #IA estimation
     LP=df_sorted['Count'].sum()
     IA=2*math.pi*(R**2)*LP/NPS
     tolerance=1/(math.sqrt(LP))
     
     format_percentage = workbook.add_format({'num_format': '0.00%'})
-    worksheet.write('F1', 'INTERSECTION AREA ESTIMATION')
-    worksheet.write('F2','LP')
-    worksheet.write('G2',LP)
-    worksheet.write('F3','NPS')
-    worksheet.write('G3',NPS)
-    worksheet.write('F4','R [cm]')
-    worksheet.write('G4',R)
-    worksheet.write('F6', 'Estimated IA [cm^2]:')
-    worksheet.write('F7',IA)
-    worksheet.write('G7','+/-')
-    worksheet.write('H7',tolerance,format_percentage)
+    worksheet.write('G1', 'INTERSECTION AREA ESTIMATION')
+    worksheet.write('G2','LP')
+    worksheet.write('H2',LP)
+    worksheet.write('G3','NPS')
+    worksheet.write('H3',NPS)
+    worksheet.write('G4','R [cm]')
+    worksheet.write('H4', R)
+    worksheet.write('G6', 'Estimated IA [cm^2]:')
+    worksheet.write('G7',IA)
+    worksheet.write('H7','+/-')
+    worksheet.write('I7',tolerance,format_percentage)
     
     df_sorted.to_excel(writer,sheet_name='LP Debugging',startrow=1 , startcol=0)   
-    df_max.to_excel(writer,sheet_name='LP Debugging',startrow=1, startcol=10)
+    df_max.to_excel(writer,sheet_name='LP Debugging',startrow=1, startcol=11)
     
     writer.save()
     print ('\n The warning is normal, the output was created correctly')

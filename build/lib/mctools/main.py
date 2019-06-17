@@ -70,7 +70,7 @@ parser.add_argument('-cf', help='Insert the name of the file containing the corr
                    type=str)
    
 # wrap: mod
-parser.add_argument('-mod', help='Insert the type of file modification',
+parser.add_argument('-mod', help='Insert the type of file wrap modification',
                    type=str)
 
 args=parser.parse_args()

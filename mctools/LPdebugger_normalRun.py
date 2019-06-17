@@ -26,6 +26,9 @@ def lpdebug_normalRun(olist,input_model):
     patNPS=re.compile('(?i)nps')
     patNPS_value=re.compile('\s+[eE.0-9]+\s*')
     patXYZ=re.compile('\s+[eE.0-9]+\s[eE.0-9]+\s[eE.0-9]+\s*')
+    patSDEF = re.compile('(?i)sdef')
+    patSDEFsur = re.compile('(?i)sur=\d+')
+    
     #-- Variables --
     surfList=[]
     cellList=[]
@@ -84,7 +87,8 @@ def lpdebug_normalRun(olist,input_model):
     df_max.reset_index(level=['Cell','Surface','Position'],inplace=True)
     df_sum=df_sorted.groupby('Filler Universe').sum()
     df_max['Total LP in universe']=df_sum['Count']
-    
+    df_max=df_max.drop(columns='Position')  # Deleting the column Position
+	
     #-- Creating Excel Writer Object from Pandas -- 
     writer = pd.ExcelWriter('LPdebug.xlsx',engine='xlsxwriter')   
     workbook=writer.book

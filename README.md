@@ -14,11 +14,12 @@ BUILDING A NEW VERSION:
 	5) Modify the version number in the variable 'version' and save.
 	6) Go to the same folder where setup.py is located and from command line execute:
 		'python setup.py sdist bdist_wheel'
-	A new version ready for installation has been built
+	A new version ready for installation has been built and stored in the "dist" folder.
 	
 INSTALLATION/UPDATING:
 	Enter in mctools/dist folder:
 	pip install mctools-<version>.tar.gz --user
+	The correspondent version of mctools will be installed and the libraries copied into the "build" folder.
 	
 GENERAL EXECUTION:
 python -m mctools --mode <mode name> -<options> <option value/s>
