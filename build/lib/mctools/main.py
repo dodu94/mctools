@@ -16,9 +16,12 @@ from mctools import TADcheck as tad
 from mctools import LPdebugger_normalRun as lp_nr
 from mctools import LPspaceClaim as lp_sc
 from mctools import WW_operator as ww
+from mctools import Red_density  as rd
+from mctools import Corr_density as cd
+from mctools import wrap as wr
 
 # Selectable Modes
-modes=('tovtk','chkfill','lpdebug','fendldown','ww')
+modes=('tovtk','chkfill','lpdebug','fendldown','ww','rd','cd','wrap')
 
 #--- Parsing ---
 descrmode='Convert one or multiple .eeout files in .vtk format'
@@ -58,6 +61,17 @@ parser.add_argument('-comment', help='"yes" if you want to comment out all the f
                    type=str,
                    choices=['yes','no'],
                    default='no')
+# rd
+parser.add_argument('-factor', help='Insert the reduce density factor',
+                   type=float)
+
+# cd
+parser.add_argument('-cf', help='Insert the name of the file containing the correction factors',
+                   type=str)
+   
+# wrap: mod
+parser.add_argument('-mod', help='Insert the type of file wrap modification',
+                   type=str)
 
 args=parser.parse_args()
 
@@ -99,6 +113,15 @@ def main():
             ww.loadView(args.i,Xs, Xf, Ys, Yf, Zs, Zf, X, Y, Z, X_DIM, Y_DIM, Z_DIM, NoPar, NoERG_P1, NoERG_P2, WW_DIM, WW_P1, WW_P2, WW_E1, WW_E2)
         
         
+    elif args.mode=='rd':
+        rd.REDdensity(args.i,args.factor)
+
+    elif args.mode=='cd':
+        cd.CORRdensity(args.i,args.cf)    
+
+    elif args.mode=='wrap':
+        wr.WRAP(args.i,args.mod) 
+
     else:
         print('\nSomething went wrong =(')
         
