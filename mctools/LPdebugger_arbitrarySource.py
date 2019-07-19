@@ -59,7 +59,21 @@ def lpdebug_arbitrary(olist,input_model):
     pointList=[]
     universeList=[]
     Trigger=False
-
+    
+    for outp in olist:
+        print('\n'+'Recovering lost particles surfaces and cells in '+outp+' ...'+'\n')
+        #-- Getting the surfaces and cells with LP --
+        with open(outp,'r') as infile:
+            for line in infile:
+                if line.find(surfaceIdentifier) != -1: #LP in surface
+                    surfList.append(Number.search(line).group())
+                if line.find(cellIdentifier) != -1: #LP in cell
+                    cellList.append(Number.search(line).group())
+                if line.find(pointIdentifier) != -1: #LP in cell
+                    reverse = re.search('\d', line[::-1])
+                    pos = len(line[::-1]) - reverse.start(0)
+                    pointList.append(line[re.search('\d+',line).start():pos])
+                    
     #Recover NPS value and radius of the sphere
     with open(input_model,'r', errors='ignore') as infile: # errors='ignore' is due top the fact that in some cases
         for line in infile:

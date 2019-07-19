@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mctools",
-    version="1.2.6",
+    version="1.2.7",
     author="Davide Laghi",
     author_email="davide.laghi01@gmail.com",
     description="A box of tools to make your life with MCNP easier",

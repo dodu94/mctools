@@ -19,7 +19,8 @@ BUILDING A NEW VERSION:
 INSTALLATION/UPDATING:
 	Enter in mctools/dist folder:
 	pip install mctools-<version>.tar.gz --user
-	The correspondent version of mctools will be installed and the libraries copied into the "build" folder.
+	The correspondent version of mctools will be installed and the libraries copied into Pyhton36/site-packages the folder.
+	***Please be aware that the content of the mctools/mctools is neither updated nor modified by the installation***
 	
 GENERAL EXECUTION:
 python -m mctools --mode <mode name> -<options> <option value/s>
