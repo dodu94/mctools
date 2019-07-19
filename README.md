@@ -6,24 +6,31 @@ identifiers to work (already contained in c-model structure) these identifiers a
 should be added to the input file.
 
 BUILDING A NEW VERSION:
-	1) Install proper tools, from command line execute:
-		'python -m pip install --user --upgrade setuptools wheel'
-	2) Go to mctools/mctools: add new scripts and modify main.py accordingly if necessary 
-	3) Go to mctools parent folder
-	4) Open 'setup.py'.
-	5) Modify the version number in the variable 'version' and save.
-	6) Go to the same folder where setup.py is located and from command line execute:
-		'python setup.py sdist bdist_wheel'
-	A new version ready for installation has been built and stored in the "dist" folder.
+1. Install proper tools, from command line execute:
+
+	> python -m pip install --user --upgrade setuptools wheel
+
+2. Go to mctools/mctools: add new scripts and modify main.py accordingly if necessary 
+3. Go to mctools parent folder
+4. Open 'setup.py'.
+5. Modify the version number in the variable 'version' and save.
+6. Go to the same folder where setup.py is located and from command line execute:
+	
+	> python setup.py sdist bdist_wheel
+	
+7. A new version ready for installation has been built and stored in the "dist" folder.
 	
 INSTALLATION/UPDATING:
-	Enter in mctools/dist folder:
-	pip install mctools-<version>.tar.gz --user
-	The correspondent version of mctools will be installed and the libraries copied into Pyhton36/site-packages the folder.
-	***Please be aware that the content of the mctools/mctools is neither updated nor modified by the installation***
+Enter in mctools/dist folder:
+	
+	> pip install mctools-<version>.tar.gz --user
+	
+The correspondent version of mctools will be installed and the libraries copied into Pyhton36/site-packages the folder.
+Please be aware that the content of the mctools/mctools is neither updated nor modified by the installation
 	
 GENERAL EXECUTION:
-python -m mctools --mode <mode name> -<options> <option value/s>
+
+	> python -m mctools --mode <mode name> -<options> <option value/s>
 
 MODES:
 Here is a description of all the modes available, the options with a DEFAULT choice are OPTIONAL:
