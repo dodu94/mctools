@@ -33,27 +33,46 @@ def lpdebug_normalRun(olist,input_model):
     surfList=[]
     cellList=[]
     pointList=[]
+    globalpointList=[]
     universeList=[]
     Trigger=False
     
     for outp in olist:
         print('\n'+'Recovering lost particles surfaces and cells in '+outp+' ...'+'\n')
         #-- Getting the surfaces and cells with LP --
+        fileAsList = []
         with open(outp,'r') as infile:
             for line in infile:
-                if line.find(surfaceIdentifier) != -1: #LP in surface
-                    surfList.append(Number.search(line).group())
-                if line.find(cellIdentifier) != -1: #LP in cell
-                    cellList.append(Number.search(line).group())
-                if line.find(pointIdentifier) != -1: #LP in cell
-                    reverse = re.search('\d', line[::-1])
-                    pos = len(line[::-1]) - reverse.start(0)
-                    pointList.append(line[re.search('\d+',line).start():pos]) 
-    
+                fileAsList.append(line)
+                
+        for i in range(len(fileAsList)):
+            line = fileAsList[i]
+            if line.find(surfaceIdentifier) != -1: #LP in surface
+                surfList.append(Number.search(line).group())
+            if line.find(cellIdentifier) != -1: #LP in cell
+                cellList.append(Number.search(line).group())
+            if line.find(pointIdentifier) != -1: #LP in cell
+                p = re.findall('-*\d.\d+E[+|-]\d+',line)[0:3]
+                p = '   '.join(p)
+                pointList.append(p)
+                if '***' in fileAsList[i-10]:
+                    gp = re.findall('-*\d.\d+[+|-]\d+',fileAsList[i-9])[0:3]
+                else:
+                    gp = re.findall('-*\d.\d+[+|-]\d+',fileAsList[i-10])[0:3]
+                try:
+                    gp[2]
+                    for i in range(len(gp)):
+                        gp[i] = gp[i][0:-3]+'E'+gp[i][-3:]
+                    gp = '   '.join(gp)
+                    globalpointList.append(gp)
+                except:
+                    globalpointList.append('NO')
+
     #-- Counting multiple occurrencies --
     organizer=pd.DataFrame(surfList,cellList).reset_index()
     organizer.rename(columns={'index':'Cell',0:'Surface'},inplace=True)
     organizer = organizer.assign(Position=pointList)
+    organizer = organizer.assign(GlobalPosition=globalpointList)
     organized = organizer.groupby(organizer.columns.tolist()).size().reset_index().rename(columns={0:'Count'})
     cellListReduced=organized['Cell'].tolist()
     
@@ -82,13 +101,14 @@ def lpdebug_normalRun(olist,input_model):
     # Cleaning and operating on raw data
     organized['Filler Universe']=universeList
     df_sorted=organized.sort_values(by=['Filler Universe','Count'])
-    df_sorted.set_index(["Filler Universe",'Cell','Surface','Position'],inplace=True)
+    df_sorted.set_index(["Filler Universe",'Cell','Surface','Position','GlobalPosition'],inplace=True)
     df_max=df_sorted.groupby('Filler Universe').tail(1)
-    df_max.reset_index(level=['Cell','Surface','Position'],inplace=True)
+    df_max.reset_index(level=['Cell','Surface','Position','GlobalPosition'],inplace=True)
     df_sum=df_sorted.groupby('Filler Universe').sum()
     df_max['Total LP in universe']=df_sum['Count']
     df_max=df_max.drop(columns='Position')  # Deleting the column Position
-	
+    df_max=df_max.drop(columns='GlobalPosition')
+    
     #-- Creating Excel Writer Object from Pandas -- 
     writer = pd.ExcelWriter('LPdebug.xlsx',engine='xlsxwriter')   
     workbook=writer.book

@@ -104,7 +104,7 @@ Here is a description of all the modes available, the options with a DEFAULT cho
 		The majority of the comments contained in the material section will be eliminated
 		Often in the c-model there are two 'END OF MATERIAL SECTION' comment lines. The one in middle MUST be canceled for the script to work.
 
-4) 'rd':  it is to reduce the density of the MCNP cell by a factor given by the user. Modified filed written in a file named as "InputFile + '[Reduced_Density]'".
+4) 'rd':  it is to reduce the density of the MCNP cell by a factor given by the user. Modified filed written in a file named as "InputFile + '[Reduced_Density_FACTOR]'".
 
 	ADDITIONAL OPTIONS:
 		' -i <inputfile> '

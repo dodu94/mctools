@@ -12,7 +12,7 @@ import re
 
 def REDdensity(filename,DensRed):
 
-    OutputFile=  filename + '[Reduced_Density]'
+    OutputFile=  filename + '[Reduced_Density_'+str(DensRed)+']'
     
     
     patternMAT  = re.compile('\d')      # Pattern to find the beginning of the material lines
