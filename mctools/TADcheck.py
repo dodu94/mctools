@@ -29,7 +29,7 @@ def TADcheck(pathreference):
     flag=False
     
     
-    with open(pathreference+'_fendl21.i','r',errors='ignore') as infile:
+    with open(pathreference+'_fendl21.i','r', errors="surrogateescape") as infile:
         for line in infile:
             
             if line.find(idEndMaterial) !=-1:
@@ -56,7 +56,7 @@ def TADcheck(pathreference):
                     tarList.append(tar)
     
     tadfendl31=[]
-    with open(pathreference,'r',errors='ignore') as infile:
+    with open(pathreference,'r', errors="surrogateescape") as infile:
         for line in infile:
             
             if line.find(idEndMaterial) !=-1:

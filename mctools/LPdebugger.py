@@ -42,7 +42,7 @@ def lpdebug(olist,input_model):
         print('\n'+'Recovering lost particles surfaces and cells in '+outp+' ...'+'\n')
         #-- Getting the surfaces and cells with LP --
         fileAsList = []
-        with open(outp,'r') as infile:
+        with open(outp,'r', errors="surrogateescape") as infile:
             for line in infile:
                 fileAsList.append(line)
                 
@@ -71,7 +71,7 @@ def lpdebug(olist,input_model):
                 
     
     #Recover NPS value and radius of the sphere
-    with open(input_model,'r', errors='ignore') as infile: # errors='ignore' is due top the fact that in some cases
+    with open(input_model,'r', errors="surrogateescape") as infile: # errors='ignore' is due top the fact that in some cases
         for line in infile:
             if patSDEF.match(line) != None: #identify the spherical source surface
                 surLine = patSDEFsur.search(line).group()
@@ -81,7 +81,7 @@ def lpdebug(olist,input_model):
                 
     patSDEFsur_number=re.compile(surNumber+'\s+[A-Za-z]+')
     patRadius = re.compile('[eE.0-9]+\s*$')
-    with open(input_model,'r',errors='ignore') as infile:
+    with open(input_model,'r', errors="surrogateescape") as infile:
         for line in infile:
             if patSDEFsur_number.match(line) !=None:
                 print ('Source Surface: '+line)
@@ -100,7 +100,7 @@ def lpdebug(olist,input_model):
     print('Assigning surfaces and cells to their filler universe...'+'\n')
     #-- Assign surfaces and cells to their filler universe --
     for cell in cellListReduced:
-        with open(input_model,'r', errors='ignore') as infile: # errors='ignore' is due top the fact that in some cases
+        with open(input_model,'r', errors="surrogateescape") as infile: # errors='ignore' is due top the fact that in some cases
             for line in infile:                                # there are char in comments that cannot be read
                 
                 #if the cell is found, the universe search is triggered

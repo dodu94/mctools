@@ -37,7 +37,7 @@ def LPviewSC(inputList):
         print('\n'+'Recovering lost particles surfaces and cells in '+outp+' ...'+'\n')
         #-- Getting the surfaces and cells with LP --
         fileAsList = []
-        with open(outp,'r') as infile:
+        with open(outp,'r', errors="surrogateescape") as infile:
             for line in infile:
                 fileAsList.append(line)
                 
@@ -97,7 +97,7 @@ def LPviewSC(inputList):
         # L.append(np.power(np.power(XL[i]-X[i],2)+np.power(YL[i]-Y[i],2)+np.power(ZL[i]-Z[i],2),0.5))
     
     # Spaceclaim outfile
-    with open( 'POINTS_SpaceClaim.py', "w") as outfile:  
+    with open( 'POINTS_SpaceClaim.py', "w", errors="surrogateescape") as outfile:  
         for i in range (0,np.size(X)): # Export point as sphere
             string = 'SphereBody.Create(Point.Create(CM(' + str(X[i]) + '), CM(' + str(Y[i]) + '), CM(' + str(Z[i]) + ')),Point.Create(CM(' + str(X[i]+R) + '), CM(' + str(Y[i]) + '), CM(' +  str(Z[i]) + ')))\n' 
             outfile.write(string)

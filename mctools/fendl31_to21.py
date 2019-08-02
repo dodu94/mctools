@@ -46,7 +46,7 @@ def fendlDowngrade(pathfile):
     fendl31=df['fendl31'].tolist()
     mode=df['mode'].tolist()
     # === READING MATERIAL SECTION ===
-    with open(pathfile,'r',errors='ignore') as infile:
+    with open(pathfile,'r', errors="surrogateescape") as infile:
         for line in infile:
             if flagMaterial:
                 
@@ -255,7 +255,7 @@ def fendlDowngrade(pathfile):
                 ##################################################################
     
     #=== OUTPUT ===    
-    with open(pathfile,'r',errors='ignore') as infile , open(pathfile+'_fendl21.i','w') as outfile:
+    with open(pathfile,'r', errors="surrogateescape") as infile , open(pathfile+'_fendl21.i','w', errors="surrogateescape") as outfile:
         del materialBlock[0]
         flag=True
         if flag:

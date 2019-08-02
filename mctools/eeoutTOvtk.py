@@ -55,7 +55,7 @@ def eeout_tovtk(mode,e):
         print('\nReading mesh Topology...')
                 
         # General infos
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             for line in infile:
                 if line.find(idNodes) !=-1:
                     numNodes=patNumber.search(line).group()
@@ -65,7 +65,7 @@ def eeout_tovtk(mode,e):
                 
                     
         # Particle type
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             for line in infile:
                 if readFlag:
                         particleList=(patNumber.findall(line))
@@ -75,7 +75,7 @@ def eeout_tovtk(mode,e):
                         readFlag=True
         
         
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             
             # Reading nodes
             readFlagX=False
@@ -124,7 +124,7 @@ def eeout_tovtk(mode,e):
         #Reading connectivity data
         cells=[]
         data=[]
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             
             # Reading nodes
             readFlagCon=False
@@ -152,7 +152,7 @@ def eeout_tovtk(mode,e):
         print('Reading Edits...')
         editParticles=[]
         editUserNumber=[]
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             editsDataFlag=False
             for line in infile:
                 
@@ -173,7 +173,7 @@ def eeout_tovtk(mode,e):
         patEditNumber=re.compile('\d+$')
         n_tally=len(editUserNumber)
         for editCounter,editNumber in enumerate(editUserNumber):
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 valuesFlag=False
                 errorFlag=False
                 rightTally=False
@@ -221,7 +221,7 @@ def eeout_tovtk(mode,e):
         materialFlag=False
         materialsList=[]
         fieldList=[]
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             for line in infile:
                 if line.find('CONNECTIVITY DATA') !=-1:
                     break
@@ -240,7 +240,7 @@ def eeout_tovtk(mode,e):
         volumeFlag=False
         densityList=[]
         volumesList=[]
-        with open (pathfile,'r') as infile:
+        with open (pathfile,'r', errors="surrogateescape") as infile:
             for line in infile:
                 if densityFlag:
                     strippedline=line.strip()
@@ -269,7 +269,7 @@ def eeout_tovtk(mode,e):
             title=patDot.split(pathfile)
             outpath=title[0]+'_'+editname+'.vtk'
             print('writing '+outpath+'...')
-            with open(outpath,'w') as outfile:
+            with open(outpath,'w', errors="surrogateescape") as outfile:
                 #-- Header --
                 outfile.write('# vtk DataFile Version 3.0 \n'+ \
                               'Original file: '+pathfile+'\n'+ \
@@ -374,7 +374,7 @@ def eeout_tovtk(mode,e):
             #Flags
             readFlag=False        
             # General infos
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 for line in infile:
                     if line.find(idNodes) !=-1:
                         numNodes=patNumber.search(line).group()
@@ -386,7 +386,7 @@ def eeout_tovtk(mode,e):
                     
                         
             # Particle type
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 for line in infile:
                     if readFlag:
                             particleList=(patNumber.findall(line))
@@ -397,7 +397,7 @@ def eeout_tovtk(mode,e):
             particleListMatrix.append(particleList)
             
             
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 
                 # Reading nodes
                 readFlagX=False
@@ -449,7 +449,7 @@ def eeout_tovtk(mode,e):
             #Reading connectivity data
             cells=[]
             data=[]
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 
                 # Reading nodes
                 readFlagCon=False
@@ -481,7 +481,7 @@ def eeout_tovtk(mode,e):
             print('Reading Edits in '+pathfile+'...')
             editParticles=[]
             editUserNumber=[]
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 editsDataFlag=False
                 for line in infile:
                     
@@ -504,7 +504,7 @@ def eeout_tovtk(mode,e):
             patEditNumber=re.compile('\d+$')
             n_tally=len(editUserNumber)
             for editCounter,editNumber in enumerate(editUserNumber):
-                with open (pathfile,'r') as infile:
+                with open (pathfile,'r', errors="surrogateescape") as infile:
                     valuesFlag=False
                     errorFlag=False
                     rightTally=False
@@ -554,7 +554,7 @@ def eeout_tovtk(mode,e):
             materialFlag=False
             materialsList=[]
             fieldList=[]
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 for line in infile:
                     if line.find('CONNECTIVITY DATA') !=-1:
                         break
@@ -573,7 +573,7 @@ def eeout_tovtk(mode,e):
             volumeFlag=False
             densityList=[]
             volumesList=[]
-            with open (pathfile,'r') as infile:
+            with open (pathfile,'r', errors="surrogateescape") as infile:
                 for line in infile:
                     if densityFlag:
                         strippedline=line.strip()
@@ -607,7 +607,7 @@ def eeout_tovtk(mode,e):
         
         outpath='global.vtk'
         print('writing '+outpath+'...')
-        with open(outpath,'w') as outfile:
+        with open(outpath,'w', errors="surrogateescape") as outfile:
             #-- Header --
             outfile.write('# vtk DataFile Version 3.0 \n'+ \
                           'Original file: '+pathfile+'\n'+ \

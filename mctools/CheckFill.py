@@ -21,7 +21,7 @@ def checkFilledUniverses(filename,optFlag):
     
     filledUniverses=[]
     
-    with open(filename,'r',errors='ignore') as infile:
+    with open(filename,'r', errors="surrogateescape") as infile:
         for line in infile:
     
             if line.find(endUniverse) != -1: # exit the loop once the universes have all been readed
@@ -40,14 +40,14 @@ def checkFilledUniverses(filename,optFlag):
                 if line.find(patternFill2) != -1:
                     filledUniverses.append(universe_number)
     
-    with open('logFilledEnvelopes.txt','w') as outfile:
+    with open('logFilledEnvelopes.txt','w', errors="surrogateescape") as outfile:
         for line in filledUniverses:
             outfile.write(line+'\n')
     
     print('\n The filled envelopes were registered correctly \n')
     
     if optFlag:
-        with open(filename,'r',errors='ignore') as infile, open(filename+'_noFillers.i','w') as outfile:
+        with open(filename,'r', errors="surrogateescape") as infile, open(filename+'_noFillers.i','w', errors="surrogateescape") as outfile:
             for line in infile:
                 
                 if patternComments.match(line) == None: # if the line is not a comment
