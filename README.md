@@ -47,7 +47,7 @@ Here is a description of all the modes available, the options with a DEFAULT cho
 			this argument is REQUIRED and consist in the list of the .eeout files to convert
 	
 	RESTRICTIONS:
-		Admitted mesh elements: first order tetra.
+		Admitted mesh elements: first ans second order tetra.
 		Admitted particles: n,p
 		Admmitted edits: 4,6
 

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mctools
-Version: 1.2.10
+Version: 1.2.11
 Summary: A box of tools to make your life with MCNP easier
 Home-page: UNKNOWN
 Author: Davide Laghi
@@ -55,7 +55,7 @@ Description: # mctools package
         			this argument is REQUIRED and consist in the list of the .eeout files to convert
         	
         	RESTRICTIONS:
-        		Admitted mesh elements: first order tetra.
+        		Admitted mesh elements: first ans second order tetra.
         		Admitted particles: n,p
         		Admmitted edits: 4,6
         
