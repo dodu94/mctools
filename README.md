@@ -6,23 +6,31 @@ identifiers to work (already contained in c-model structure) these identifiers a
 should be added to the input file.
 
 BUILDING A NEW VERSION:
-	1) Install proper tools, from command line execute:
-		'python -m pip install --user --upgrade setuptools wheel'
-	2) Go to mctools/mctools: add new scripts and modify main.py accordingly if necessary 
-	3) Go to mctools parent folder
-	4) Open 'setup.py'.
-	5) Modify the version number in the variable 'version' and save.
-	6) Go to the same folder where setup.py is located and from command line execute:
-		'python setup.py sdist bdist_wheel'
-	A new version ready for installation has been built and stored in the "dist" folder.
+1. Install proper tools, from command line execute:
+
+	> python -m pip install --user --upgrade setuptools wheel
+
+2. Go to mctools/mctools: add new scripts and modify main.py accordingly if necessary 
+3. Go to mctools parent folder
+4. Open 'setup.py'.
+5. Modify the version number in the variable 'version' and save.
+6. Go to the same folder where setup.py is located and from command line execute:
+	
+	> python setup.py sdist bdist_wheel
+	
+7. A new version ready for installation has been built and stored in the "dist" folder.
 	
 INSTALLATION/UPDATING:
-	Enter in mctools/dist folder:
-	pip install mctools-<version>.tar.gz --user
-	The correspondent version of mctools will be installed and the libraries copied into the "build" folder.
+Enter in mctools/dist folder:
+	
+	> pip install mctools-<version>.tar.gz --user
+	
+The correspondent version of mctools will be installed and the libraries copied into Pyhton36/site-packages the folder.
+Please be aware that the content of the mctools/mctools is neither updated nor modified by the installation
 	
 GENERAL EXECUTION:
-python -m mctools --mode <mode name> -<options> <option value/s>
+
+	> python -m mctools --mode <mode name> -<options> <option value/s>
 
 MODES:
 Here is a description of all the modes available, the options with a DEFAULT choice are OPTIONAL:
@@ -39,7 +47,7 @@ Here is a description of all the modes available, the options with a DEFAULT cho
 			this argument is REQUIRED and consist in the list of the .eeout files to convert
 	
 	RESTRICTIONS:
-		Admitted mesh elements: first order tetra.
+		Admitted mesh elements: first ans second order tetra.
 		Admitted particles: n,p
 		Admmitted edits: 4,6
 
@@ -96,7 +104,7 @@ Here is a description of all the modes available, the options with a DEFAULT cho
 		The majority of the comments contained in the material section will be eliminated
 		Often in the c-model there are two 'END OF MATERIAL SECTION' comment lines. The one in middle MUST be canceled for the script to work.
 
-4) 'rd':  it is to reduce the density of the MCNP cell by a factor given by the user. Modified filed written in a file named as "InputFile + '[Reduced_Density]'".
+4) 'rd':  it is to reduce the density of the MCNP cell by a factor given by the user. Modified filed written in a file named as "InputFile + '[Reduced_Density_FACTOR]'".
 
 	ADDITIONAL OPTIONS:
 		' -i <inputfile> '

@@ -26,7 +26,7 @@ def CORRdensity(filename,DensCorr):
     dc=[]      # Density correction matrix
     cells=[]   # Cell No.
 
-    with open(DensCorr, "r") as infile:
+    with open(DensCorr, "r", errors="surrogateescape") as infile:
         for line in infile:
             split=line.split()
             cells.append(split[0])
@@ -35,12 +35,12 @@ def CORRdensity(filename,DensCorr):
     # print(cells)
     # print(dc)
 
-    with open(OutputLog,"w") as outfileLog:
+    with open(OutputLog,"w", errors="surrogateescape") as outfileLog:
         outfileLog.write('C  '+'The following cells have been modified employing the information provided in '+ DensCorr + ' file !\n')
         outfileLog.write('C  '+'{:^20}'.format('--Cell No.--')+'\t'+'{:^20}'.format('--Former Density--')+'\t'+'{:^20}'.format('-- New Density--')+'\t'+'{:^20}'.format('--Correction factor--') + ' \n')
 
-        with open(OutputFile,"w") as outfile:
-            with open(filename) as infile:
+        with open(OutputFile,"w", errors="surrogateescape") as outfile:
+            with open(filename, errors="surrogateescape") as infile:
                 for line in infile:
                     
                     LINE = patternLINE.match(line)

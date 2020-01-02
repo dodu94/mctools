@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 02 12:00:00 2019
+Created on Thu AuG 01 12:00:00 2019
 
 @author: Marco Fabbri
 
 The aim of this script is to reduce the density of the MCNP cell by a factor 
-given by the user (only int are accepted). Modified filed writen in a file named as "InputFile + '[Reduced_Density]'".
+given by the user. Modified filed writen in a file named as "InputFile + '[Reduced_Density_DensRed]'".
 """
 
 import re
 
 def REDdensity(filename,DensRed):
 
-    OutputFile=  filename + '[Reduced_Density]'
+    OutputFile=  filename + '[Reduced_Density_'+str(DensRed)+']'
     
     
     patternMAT  = re.compile('\d')      # Pattern to find the beginning of the material lines
@@ -20,8 +20,8 @@ def REDdensity(filename,DensRed):
 
     LineBLANK=0
 
-    with open(OutputFile,"w") as outfile:
-        with open(filename, encoding='utf8') as infile:
+    with open(OutputFile,'w', errors="surrogateescape") as outfile:
+        with open(filename,'r', errors="surrogateescape") as infile:
             for line in infile:
                 
                 LINE = patternLINE.match(line)
@@ -37,18 +37,19 @@ def REDdensity(filename,DensRed):
                         split=line.split()
                         
                         if (float(split[1]) != 0):         # Operate only if the cell is not a void cell
-                            split[2]=str(round(float(split[2])/DensRed, len(split[2])+1))
-                            line_MOD=" ".join(split)
+                            
+                            line_MOD=line[0:line.find(split[2])] + '{:.3e}'.format(float(split[2])/DensRed) + line[(line.find(split[2])+len(split[2])):]
+
                             if len(line_MOD)>= 80:         # If the resulting line is > 80 characters wrap after the material density.
                                 pieces=line_MOD.split()
                                 
-                                line_MOD_1=" ".join(pieces[0:7])
-                                line_MOD_2=" ".join(pieces[7:])
+                                line_MOD_1=line[0:line.find(split[2])] + '{:.3e}'.format(float(split[2])/DensRed)
+                                line_MOD_2=line[(line.find(split[2])+len(split[2])):]
                                 
                                 outfile.write(line_MOD_1+'\n')
-                                outfile.write('        '+line_MOD_2+'\n')
+                                outfile.write('        '+line_MOD_2)
                             else:
-                                outfile.write(line_MOD+'\n')
+                                outfile.write(line_MOD)
                         else:
                             outfile.write(line)
                     else:

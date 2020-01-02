@@ -266,9 +266,9 @@ def WRAP(filename,Flag):
 
     print('\n Reading .......'+ filename + '...'+ time.asctime() + '...! \n')
 
-    with open(filenameORG,'w',errors='ignore') as outfile:
+    with open(filenameORG,'w', errors="surrogateescape") as outfile:
         # This loop deals with the MCNP title if present
-        with open(filename,'r',errors='ignore', newline='') as infile:
+        with open(filename,'r', errors="surrogateescape", newline='') as infile:
             # Start again the line blank counter
             LineBLANK  = 0
             
@@ -277,7 +277,7 @@ def WRAP(filename,Flag):
                 outfile.write(firstLine[:firstLine.find('\r')]+'\n')
                 
         # This loop extracts and stores the information for the MCNP CELL section
-        with open(filename,'r',errors='ignore', newline='') as infile:
+        with open(filename,'r', errors="surrogateescape", newline='') as infile:
             for line in infile:
 
                 LINE = patternLine.match(line)                 # To determine if the line is a blank line.
@@ -445,7 +445,7 @@ def WRAP(filename,Flag):
                 tmp_2MOD=[]
                 mat_2MOD=[]
                 
-                with open(filenameU_TMP,'r',errors='ignore', newline='') as infile:
+                with open(filenameU_TMP,'r', errors="surrogateescape", newline='') as infile:
                     for line in infile:
                         split = line.split()
                         u_2MOD.append(split[0])
@@ -490,7 +490,7 @@ def WRAP(filename,Flag):
                 mat_2MOD  =[]
                 fact_2MOD =[]
                 
-                with open(filenameMAT_Dens,'r',errors='ignore', newline='') as infile:
+                with open(filenameMAT_Dens,'r', errors="surrogateescape", newline='') as infile:
                     for line in infile:
                         split = line.split()
                         u_2MOD.append(split[0])
@@ -528,7 +528,7 @@ def WRAP(filename,Flag):
                 Card_Value[i]=cardBUID (TMP_Value[i], U_Value[i], fill_Value[i], IMPn_Value[i], IMPp_Value[i], IMPe_Value[i]) 
         print('\n Writing .......' + filenameORG +'...'+time.asctime()+ '...\n')
         # This loop write the information of the MCNP CELL section in a structured way leaving unchanged the other sections(e.g. surface and materials ones)
-        with open(filename,'r',errors='ignore', newline='') as infile:
+        with open(filename,'r', errors="surrogateescape", newline='') as infile:
         
 
             # Start again the line blank counter
@@ -630,7 +630,7 @@ def WRAP(filename,Flag):
     print('\n Writing .......' + filenameLOG + time.asctime()+ '! \n')
 
     # This loop writes the cells LOG. 
-    with open(filenameLOG,'w') as outfile:
+    with open(filenameLOG,'w', errors="surrogateescape") as outfile:
         outfile.write('{:^20}'.format('--Cell No.--')+'\t'+'{:^20}'.format('--Mat No.--')+'\t'+'{:^20}'.format('--Density--')+'\t')
         outfile.write('{:^20}'.format('--TMP[VALUE]--')+'\t'+'{:^20}'.format('--TMP[K]--')+'\t'+'{:^20}'.format('--UNIV--')+'\t')
         outfile.write('{:^15}'.format('--IMP:N--')+'\t'+'{:^15}'.format('--IMP:P--')+'\t'+'{:^15}'.format('--IMP:E--')+'\t  '+'Comments:'+'\n')
@@ -661,7 +661,7 @@ def WRAP(filename,Flag):
 
         print('\n Writing .......the TMP analysis...'+ time.asctime()+'...! \n')
 
-        with open(filenameTMP,'w') as outfile:
+        with open(filenameTMP,'w', errors="surrogateescape") as outfile:
             for j in range (0, np.size(Out)):
                 for i in range (0, np.size(TMP_Value)):
                     if Out[j] == U_Value[i]:

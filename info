@@ -1,0 +1,97 @@
+running sdist
+running egg_info
+writing mctools.egg-info\PKG-INFO
+writing dependency_links to mctools.egg-info\dependency_links.txt
+writing top-level names to mctools.egg-info\top_level.txt
+reading manifest file 'mctools.egg-info\SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+writing manifest file 'mctools.egg-info\SOURCES.txt'
+running check
+creating mctools-1.2.7X
+creating mctools-1.2.7X\mctools
+creating mctools-1.2.7X\mctools.egg-info
+copying files to mctools-1.2.7X...
+copying MANIFEST.in -> mctools-1.2.7X
+copying README.md -> mctools-1.2.7X
+copying setup.py -> mctools-1.2.7X
+copying mctools\CheckFill.py -> mctools-1.2.7X\mctools
+copying mctools\Corr_density.py -> mctools-1.2.7X\mctools
+copying mctools\LPdebugger.py -> mctools-1.2.7X\mctools
+copying mctools\LPdebugger_arbitrarySource.py -> mctools-1.2.7X\mctools
+copying mctools\LPdebugger_normalRun.py -> mctools-1.2.7X\mctools
+copying mctools\LPspaceClaim.py -> mctools-1.2.7X\mctools
+copying mctools\Red_density.py -> mctools-1.2.7X\mctools
+copying mctools\TADcheck.py -> mctools-1.2.7X\mctools
+copying mctools\WW_operator.py -> mctools-1.2.7X\mctools
+copying mctools\__init__.py -> mctools-1.2.7X\mctools
+copying mctools\__main__.py -> mctools-1.2.7X\mctools
+copying mctools\eeoutTOvtk.py -> mctools-1.2.7X\mctools
+copying mctools\fendl31_to21.py -> mctools-1.2.7X\mctools
+copying mctools\fendlConfront.xlsx -> mctools-1.2.7X\mctools
+copying mctools\main.py -> mctools-1.2.7X\mctools
+copying mctools\wrap.py -> mctools-1.2.7X\mctools
+copying mctools.egg-info\PKG-INFO -> mctools-1.2.7X\mctools.egg-info
+copying mctools.egg-info\SOURCES.txt -> mctools-1.2.7X\mctools.egg-info
+copying mctools.egg-info\dependency_links.txt -> mctools-1.2.7X\mctools.egg-info
+copying mctools.egg-info\top_level.txt -> mctools-1.2.7X\mctools.egg-info
+Writing mctools-1.2.7X\setup.cfg
+Creating tar archive
+removing 'mctools-1.2.7X' (and everything under it)
+running bdist_wheel
+running build
+running build_py
+installing to build\bdist.win-amd64\wheel
+running install
+running install_lib
+creating build\bdist.win-amd64\wheel
+creating build\bdist.win-amd64\wheel\mctools
+copying build\lib\mctools\CheckFill.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\checkmctools.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\CHECK_BUILD.txt -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\Corr_density.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\Corr_density[OK].py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\eeoutTOvtk.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\fendl31_to21.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\fendlConfront.xlsx -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\LPdebugger.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\LPdebugger_arbitrarySource.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\LPdebugger_normalRun.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\LPspaceClaim.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\main.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\Red_density.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\TADcheck.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\wrap.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\WW_operator.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\__init__.py -> build\bdist.win-amd64\wheel\.\mctools
+copying build\lib\mctools\__main__.py -> build\bdist.win-amd64\wheel\.\mctools
+running install_egg_info
+Copying mctools.egg-info to build\bdist.win-amd64\wheel\.\mctools-1.2.7X-py3.6.egg-info
+running install_scripts
+adding license file "LICENSE" (matched pattern "LICEN[CS]E*")
+creating build\bdist.win-amd64\wheel\mctools-1.2.7X.dist-info\WHEEL
+creating 'dist\mctools-1.2.7X-py3-none-any.whl' and adding 'build\bdist.win-amd64\wheel' to it
+adding 'mctools/CHECK_BUILD.txt'
+adding 'mctools/CheckFill.py'
+adding 'mctools/Corr_density.py'
+adding 'mctools/Corr_density[OK].py'
+adding 'mctools/LPdebugger.py'
+adding 'mctools/LPdebugger_arbitrarySource.py'
+adding 'mctools/LPdebugger_normalRun.py'
+adding 'mctools/LPspaceClaim.py'
+adding 'mctools/Red_density.py'
+adding 'mctools/TADcheck.py'
+adding 'mctools/WW_operator.py'
+adding 'mctools/__init__.py'
+adding 'mctools/__main__.py'
+adding 'mctools/checkmctools.py'
+adding 'mctools/eeoutTOvtk.py'
+adding 'mctools/fendl31_to21.py'
+adding 'mctools/fendlConfront.xlsx'
+adding 'mctools/main.py'
+adding 'mctools/wrap.py'
+adding 'mctools-1.2.7X.dist-info/LICENSE'
+adding 'mctools-1.2.7X.dist-info/METADATA'
+adding 'mctools-1.2.7X.dist-info/WHEEL'
+adding 'mctools-1.2.7X.dist-info/top_level.txt'
+adding 'mctools-1.2.7X.dist-info/RECORD'
+removing build\bdist.win-amd64\wheel
